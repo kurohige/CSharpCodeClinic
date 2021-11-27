@@ -10,7 +10,44 @@ namespace Chess
 
         public bool IsSafe()
         {
-            throw new NotImplementedException();
+            // no Two queens maybe on the same row 
+            // board will be an array of numbers. 
+            // {0,0,0,0,0,0,0,0}
+            // {1,0,0,0,0,0,0,0}
+            // {1,0,0,0,0,1,0,0}
+            // {0,0,0,0,0,0,0,0}
+            // {0,0,0,0,0,0,0,0}
+            // {0,0,0,0,0,0,0,0}
+            // {0,0,0,0,0,0,0,0}
+            // no duplicates numbers on the array. 
+            var countZeros = Board.Count(n => n == 0);
+            var countDistinct = Board.Distinct().Count();
+            
+
+            if (Board.Length != countDistinct + (countZeros > 1 ? countZeros-1 : 0))
+                return false;
+            // no two queens on same diagonal. 
+
+            
+            for (var i = 1; i <= 8; i++)
+            {
+                for (var j = 1; j <= 8; j++)
+                {
+                    if (Board[i-1] != 0 && Board[j-1] != 0)
+                    {
+                        var dX = Math.Abs(i - j);
+                        var dY = Math.Abs(Board[i - 1] - Board[j - 1]);
+                        if (dX == dY)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+            }
+            return true;
+
+            //throw new NotImplementedException();
         }
 
         public static bool PlaceQueens(ChessBoard board = null, int column = 0)
